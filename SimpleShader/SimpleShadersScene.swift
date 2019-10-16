@@ -35,8 +35,8 @@ final class SimpleShadersScene: SCNScene {
             program.fragmentFunctionName = "textureSamplerFragment"
             
         case .enlighted:
-            program.vertexFunctionName = "diffuseVertex"
-            program.fragmentFunctionName = "diffuseFragment"
+            program.vertexFunctionName = "enlightedVertex"
+            program.fragmentFunctionName = "enlightedFragment"
         }
         
         node.geometry?.firstMaterial?.program = program

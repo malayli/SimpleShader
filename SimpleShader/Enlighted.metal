@@ -43,7 +43,7 @@ struct ProjectedVertex
     float2 texCoords;
 };
 
-vertex ProjectedVertex diffuseVertex(Vertex vert [[stage_in]], constant NodeBuffer& scn_node [[buffer(1)]])
+vertex ProjectedVertex enlightedVertex(Vertex vert [[stage_in]], constant NodeBuffer& scn_node [[buffer(1)]])
 {
     ProjectedVertex outVert;
     outVert.position = scn_node.modelViewProjectionTransform * vert.position;
@@ -53,7 +53,7 @@ vertex ProjectedVertex diffuseVertex(Vertex vert [[stage_in]], constant NodeBuff
     return outVert;
 }
 
-fragment float4 diffuseFragment(ProjectedVertex vert [[stage_in]], texture2d<float, access::sample> customTexture [[texture(0)]])
+fragment float4 enlightedFragment(ProjectedVertex vert [[stage_in]], texture2d<float, access::sample> customTexture [[texture(0)]])
 {
     constexpr sampler samplr(coord::normalized, filter::linear, address::repeat);
     float3 diffuseColor = customTexture.sample(samplr, vert.texCoords).rgb;

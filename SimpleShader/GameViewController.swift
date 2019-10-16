@@ -29,19 +29,21 @@ class GameViewController: UIViewController {
         // create and add a light to the scene
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
-        lightNode.light!.type = .omni
+        lightNode.light?.type = .omni
         lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
         scene.rootNode.addChildNode(lightNode)
         
         // create and add an ambient light to the scene
         let ambientLightNode = SCNNode()
         ambientLightNode.light = SCNLight()
-        ambientLightNode.light!.type = .ambient
-        ambientLightNode.light!.color = UIColor.darkGray
+        ambientLightNode.light?.type = .ambient
+        ambientLightNode.light?.color = UIColor.darkGray
         scene.rootNode.addChildNode(ambientLightNode)
         
         // retrieve the SCNView
-        let scnView = self.view as! SCNView
+        guard let scnView = self.view as? SCNView else {
+            return
+        }
         
         // set the scene to the view
         scnView.scene = scene
@@ -63,7 +65,9 @@ class GameViewController: UIViewController {
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
         // retrieve the SCNView
-        let scnView = self.view as! SCNView
+        guard let scnView = self.view as? SCNView else {
+            return
+        }
         
         // check what nodes are tapped
         let p = gestureRecognize.location(in: scnView)
@@ -74,7 +78,9 @@ class GameViewController: UIViewController {
             let result = hitResults[0]
             
             // get its material
-            let material = result.node.geometry!.firstMaterial!
+            guard let material = result.node.geometry?.firstMaterial else {
+                return
+            }
             
             // highlight it
             SCNTransaction.begin()

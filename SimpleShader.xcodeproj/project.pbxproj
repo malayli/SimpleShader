@@ -15,6 +15,7 @@
 		3AAAEEDA2356CD4A00DDE4A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AAAEED82356CD4A00DDE4A6 /* LaunchScreen.storyboard */; };
 		3AAAEEE22356CDA300DDE4A6 /* SimpleShadersScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAAEEE12356CDA300DDE4A6 /* SimpleShadersScene.swift */; };
 		3AAAEEE42356CF5000DDE4A6 /* TextureSampler.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3AAAEEE32356CF5000DDE4A6 /* TextureSampler.metal */; };
+		3AAAEEF02356EF5800DDE4A6 /* Diffuse.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3AAAEEEF2356EF5800DDE4A6 /* Diffuse.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		3AAAEEDB2356CD4A00DDE4A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AAAEEE12356CDA300DDE4A6 /* SimpleShadersScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleShadersScene.swift; sourceTree = "<group>"; };
 		3AAAEEE32356CF5000DDE4A6 /* TextureSampler.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = TextureSampler.metal; sourceTree = "<group>"; };
+		3AAAEEEF2356EF5800DDE4A6 /* Diffuse.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Diffuse.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,11 +64,12 @@
 			children = (
 				3AAAEECD2356CD4700DDE4A6 /* AppDelegate.swift */,
 				3AAAEECF2356CD4700DDE4A6 /* art.scnassets */,
-				3AAAEED12356CD4700DDE4A6 /* GameViewController.swift */,
-				3AAAEED32356CD4700DDE4A6 /* Main.storyboard */,
 				3AAAEED62356CD4A00DDE4A6 /* Assets.xcassets */,
-				3AAAEED82356CD4A00DDE4A6 /* LaunchScreen.storyboard */,
+				3AAAEEEF2356EF5800DDE4A6 /* Diffuse.metal */,
+				3AAAEED12356CD4700DDE4A6 /* GameViewController.swift */,
 				3AAAEEDB2356CD4A00DDE4A6 /* Info.plist */,
+				3AAAEED82356CD4A00DDE4A6 /* LaunchScreen.storyboard */,
+				3AAAEED32356CD4700DDE4A6 /* Main.storyboard */,
 				3AAAEEE12356CDA300DDE4A6 /* SimpleShadersScene.swift */,
 				3AAAEEE32356CF5000DDE4A6 /* TextureSampler.metal */,
 			);
@@ -145,6 +148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AAAEEF02356EF5800DDE4A6 /* Diffuse.metal in Sources */,
 				3AAAEED22356CD4700DDE4A6 /* GameViewController.swift in Sources */,
 				3AAAEEE22356CDA300DDE4A6 /* SimpleShadersScene.swift in Sources */,
 				3AAAEEE42356CF5000DDE4A6 /* TextureSampler.metal in Sources */,

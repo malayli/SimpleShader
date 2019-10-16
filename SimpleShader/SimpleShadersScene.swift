@@ -9,6 +9,12 @@
 import SceneKit
 
 final class SimpleShadersScene: SCNScene {
+    enum ShaderType {
+        case standard, enlighted
+    }
+    
+    let shaderType: ShaderType = .enlighted
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -22,8 +28,17 @@ final class SimpleShadersScene: SCNScene {
         rootNode.addChildNode(node)
         
         let program = SCNProgram()
-        program.vertexFunctionName = "textureSamplerVertex"
-        program.fragmentFunctionName = "textureSamplerFragment"
+        
+        switch shaderType {
+        case .standard:
+            program.vertexFunctionName = "textureSamplerVertex"
+            program.fragmentFunctionName = "textureSamplerFragment"
+            
+        case .enlighted:
+            program.vertexFunctionName = "diffuseVertex"
+            program.fragmentFunctionName = "diffuseFragment"
+        }
+        
         node.geometry?.firstMaterial?.program = program
         
         guard let landscapeImage  = UIImage(named: "landscape") else {

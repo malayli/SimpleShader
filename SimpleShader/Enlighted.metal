@@ -24,13 +24,13 @@ struct NodeBuffer {
   float4x4 modelTransform;
   float4x4 modelViewProjectionTransform;
   float4x4 modelViewTransform;
-  float3x3 normalTransform;
+  float4x4 normalTransform;
   float2x3 boundingBox;
 };
 
 struct Vertex
 {
-    float4 position [[attribute(SCNVertexSemanticPosition)]];
+    float3 position [[attribute(SCNVertexSemanticPosition)]];
     float3 normal [[attribute(SCNVertexSemanticNormal)]];
     float2 texCoords [[attribute(SCNVertexSemanticTexcoord0)]];
 };
@@ -46,9 +46,9 @@ struct ProjectedVertex
 vertex ProjectedVertex enlightedVertex(Vertex vert [[stage_in]], constant NodeBuffer& scn_node [[buffer(1)]])
 {
     ProjectedVertex outVert;
-    outVert.position = scn_node.modelViewProjectionTransform * vert.position;
-    outVert.eyePosition = -(scn_node.modelViewTransform * vert.position).xyz;
-    outVert.normal = scn_node.normalTransform * vert.normal;
+    outVert.position = scn_node.modelViewProjectionTransform * float4(vert.position, 1.0); // w = 1.0 because outVert position is a position in space
+    outVert.eyePosition = -(scn_node.modelViewTransform * float4(vert.position, 1.0)).xyz; // w = 1.0 because outVert eyePosition is a position in space
+    outVert.normal = (scn_node.normalTransform * float4(vert.normal, 0.0)).xyz; // w = 0.0 because normal is a direction
     outVert.texCoords = vert.texCoords;
     return outVert;
 }

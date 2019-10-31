@@ -10,10 +10,10 @@ import SceneKit
 
 final class SimpleShadersScene: SCNScene {
     enum ShaderType {
-        case standard, enlighted, timelyColored
+        case standard, enlighted, timelyColored, gaussianBlurred
     }
     
-    let shaderType: ShaderType = .timelyColored
+    let shaderType: ShaderType = .gaussianBlurred
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -24,7 +24,7 @@ final class SimpleShadersScene: SCNScene {
         
         switch shaderType {
         case .standard:
-            let node = cubeNode(position: SCNVector3(0, 0, 0), shaders: [:])
+            let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [:])
             let program = SCNProgram()
             program.vertexFunctionName = "textureSamplerVertex"
             program.fragmentFunctionName = "textureSamplerFragment"
@@ -37,7 +37,7 @@ final class SimpleShadersScene: SCNScene {
             rootNode.addChildNode(node)
             
         case .enlighted:
-            let node = cubeNode(position: SCNVector3(0, 0, 0), shaders: [:])
+            let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [:])
             let program = SCNProgram()
             program.vertexFunctionName = "enlightedVertex"
             program.fragmentFunctionName = "enlightedFragment"
@@ -50,24 +50,46 @@ final class SimpleShadersScene: SCNScene {
             rootNode.addChildNode(node)
             
         case .timelyColored:
-            let node = cubeNode(position: SCNVector3(0, 0, 0), shaders: [.fragment: timelyColoredFragmentShader])
+            let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [.fragment: timelyColoredFragmentShader])
+            rootNode.addChildNode(node)
+                
+        case .gaussianBlurred:
+            let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [.fragment: gaussianFragment])
+            node.addTexture("landscape")
             rootNode.addChildNode(node)
         }
     }
 }
 
-private extension SimpleShadersScene {
-    private func cubeNode(position p: SCNVector3, shaders: [SCNShaderModifierEntryPoint: String]) -> SCNNode {
-        let node = SCNNode()
-        node.castsShadow = false
-        node.position = p
-        node.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+// MARK: - Cube
+
+extension SCNNode {
+    convenience init(position p: SCNVector3, shaders: [SCNShaderModifierEntryPoint: String]) {
+        self.init()
+        
+        castsShadow = false
+        position = p
+        geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
         
         let material = SCNMaterial()
         material.shaderModifiers = shaders
         material.lightingModel = .constant
-        node.geometry?.materials = [material]
-        
-        return node
+        geometry?.materials = [material]
+    }
+}
+
+// MARK: - Texture
+
+extension SCNNode {
+    func addTexture(_ imageName: String) {
+        geometry?.firstMaterial?.diffuse.contents = UIImage(named: imageName)
+    }
+    
+    func addMaterialWithTexture(_ name: String, for key: String) {
+        guard let customTextureImage  = UIImage(named: name) else {
+            return
+        }
+        let materialProperty = SCNMaterialProperty(contents: customTextureImage)
+        geometry?.firstMaterial?.setValue(materialProperty, forKey: key)
     }
 }

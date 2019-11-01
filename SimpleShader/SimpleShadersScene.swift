@@ -10,10 +10,10 @@ import SceneKit
 
 final class SimpleShadersScene: SCNScene {
     enum ShaderType {
-        case standard, enlighted, timelyColored, gaussianBlurred
+        case standard, enlighted, timelyColored, gaussianBlurred, discovery
     }
     
-    let shaderType: ShaderType = .gaussianBlurred
+    let shaderType: ShaderType = .discovery
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -25,28 +25,16 @@ final class SimpleShadersScene: SCNScene {
         switch shaderType {
         case .standard:
             let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [:])
-            let program = SCNProgram()
-            program.vertexFunctionName = "textureSamplerVertex"
-            program.fragmentFunctionName = "textureSamplerFragment"
-            node.geometry?.firstMaterial?.program = program
-            guard let landscapeImage  = UIImage(named: "landscape") else {
-              return
-            }
-            let materialProperty = SCNMaterialProperty(contents: landscapeImage)
-            node.geometry?.firstMaterial?.setValue(materialProperty, forKey: "customTexture")
+            node.addProgram(vertexFunctionName: "textureSamplerVertex",
+                            fragmentFunctionName: "textureSamplerFragment")
+            node.addMaterialWithTexture("landscape", for: "customTexture")
             rootNode.addChildNode(node)
             
         case .enlighted:
             let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [:])
-            let program = SCNProgram()
-            program.vertexFunctionName = "enlightedVertex"
-            program.fragmentFunctionName = "enlightedFragment"
-            node.geometry?.firstMaterial?.program = program
-            guard let landscapeImage  = UIImage(named: "landscape") else {
-              return
-            }
-            let materialProperty = SCNMaterialProperty(contents: landscapeImage)
-            node.geometry?.firstMaterial?.setValue(materialProperty, forKey: "customTexture")
+            node.addProgram(vertexFunctionName: "enlightedVertex",
+                            fragmentFunctionName: "enlightedFragment")
+            node.addMaterialWithTexture("landscape", for: "customTexture")
             rootNode.addChildNode(node)
             
         case .timelyColored:
@@ -55,6 +43,11 @@ final class SimpleShadersScene: SCNScene {
                 
         case .gaussianBlurred:
             let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [.fragment: gaussianFragment])
+            node.addTexture("landscape")
+            rootNode.addChildNode(node)
+            
+        case .discovery:
+            let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [.fragment: discoveringFragment])
             node.addTexture("landscape")
             rootNode.addChildNode(node)
         }
@@ -83,6 +76,13 @@ extension SCNNode {
 extension SCNNode {
     func addTexture(_ imageName: String) {
         geometry?.firstMaterial?.diffuse.contents = UIImage(named: imageName)
+    }
+    
+    func addProgram(vertexFunctionName: String, fragmentFunctionName: String) {
+        let program = SCNProgram()
+        program.vertexFunctionName = vertexFunctionName
+        program.fragmentFunctionName = fragmentFunctionName
+        geometry?.firstMaterial?.program = program
     }
     
     func addMaterialWithTexture(_ name: String, for key: String) {

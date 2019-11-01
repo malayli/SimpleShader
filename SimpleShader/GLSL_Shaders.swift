@@ -1,5 +1,5 @@
 //
-//  Shaders.swift
+//  GLSL_Shaders.swift
 //  SimpleShader
 //
 //  Created by Malik, Alayli on 2019/10/25.
@@ -40,4 +40,15 @@ col += texture2D(u_diffuseTexture, vec2(uv.x + 4.0 * xValue * blur, uv.y + 4.0 *
 
 // Output to screen
 _output.color.rgba = vec4(col,1);
+"""
+
+let discoveringFragment = """
+// Normalized pixel coordinates (from 0 to 1)
+vec2 uv = gl_FragCoord.xy * u_inverseResolution.xy;
+
+// Get RGB color
+vec3 color = texture2D(u_diffuseTexture, uv).rgb;
+
+// Output to screen
+_output.color.rgba = vec4(color,1);
 """

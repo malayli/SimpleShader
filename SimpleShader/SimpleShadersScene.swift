@@ -10,10 +10,10 @@ import SceneKit
 
 final class SimpleShadersScene: SCNScene {
     enum ShaderType {
-        case standard, enlighted, timelyColored, gaussianBlurred, discovery
+        case standard, enlighted, timelyColored, gaussianBlurred, discovery, drop, waving
     }
     
-    let shaderType: ShaderType = .discovery
+    let shaderType: ShaderType = .waving
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -48,6 +48,16 @@ final class SimpleShadersScene: SCNScene {
             
         case .discovery:
             let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [.fragment: discoveringFragment])
+            node.addTexture("landscape")
+            rootNode.addChildNode(node)
+                
+        case .drop:
+            let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [.fragment: dropEffectFragment])
+            node.addTexture("landscape")
+            rootNode.addChildNode(node)
+                    
+        case .waving:
+            let node = SCNNode(position: SCNVector3(0, 0, 0), shaders: [.fragment: wavingFragment])
             node.addTexture("landscape")
             rootNode.addChildNode(node)
         }

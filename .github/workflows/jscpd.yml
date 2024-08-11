@@ -4,16 +4,17 @@ name: jscpd Check
 on:
   push:
     branches:
-      - feature
+      - master
       - develop
   pull_request:
     branches:
-      - feature
+      - master
       - develop
+  workflow_dispatch: # This allows manual triggering
 
 jobs:
   jscpd:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
     - name: Checkout code
@@ -25,7 +26,7 @@ jobs:
         node-version: '16'
 
     - name: Install dependencies
-      run: npm install
+      run: npm install jscpd
 
     - name: Run jscpd
       run: npx jscpd

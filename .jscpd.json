@@ -1,0 +1,7 @@
+{
+  "patterns": ["**/*.swift"],
+  "reporters": ["console", "html"],
+  "threshold": 7,
+  "minTokens": 50,
+  "ignore": ["**/node_modules/**","**/*.json","**/*.svg"]
+}
